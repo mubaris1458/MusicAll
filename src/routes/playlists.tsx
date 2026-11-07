@@ -9,9 +9,9 @@ import { Input } from "@/components/ui/input";
 
 export const Route = createFileRoute("/playlists")({
   head: () => ({ meta: [
-    { title: "Playlists — AmberWave" },
+    { title: "Playlists — Tamil Music" },
     { name: "description", content: "Create and manage your playlists." },
-    { property: "og:title", content: "Playlists — AmberWave" },
+    { property: "og:title", content: "Playlists — Tamil Music" },
     { property: "og:description", content: "Create and manage your playlists." },
     { property: "og:type", content: "website" },
     { name: "twitter:card", content: "summary_large_image" },

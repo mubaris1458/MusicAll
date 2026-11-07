@@ -11,9 +11,9 @@ import type { Track } from "@/lib/types";
 
 export const Route = createFileRoute("/playlists/$playlistId")({
   head: () => ({ meta: [
-    { title: "Playlist — AmberWave" },
+    { title: "Playlist — Tamil Music" },
     { name: "description", content: "Play, shuffle and reorder your playlist." },
-    { property: "og:title", content: "Playlist — AmberWave" },
+    { property: "og:title", content: "Playlist — Tamil Music" },
     { property: "og:description", content: "Play, shuffle and reorder your playlist." },
     { property: "og:type", content: "website" },
     { name: "twitter:card", content: "summary_large_image" },

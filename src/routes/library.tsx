@@ -11,9 +11,9 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/library")({
   beforeLoad: () => { throw redirect({ to: "/albums" }); },
   head: () => ({ meta: [
-    { title: "My Library — AmberWave" },
+    { title: "My Library — Tamil Music" },
     { name: "description", content: "Your imported songs, favourites and all Tamil songs." },
-    { property: "og:title", content: "My Library — AmberWave" },
+    { property: "og:title", content: "My Library — Tamil Music" },
     { property: "og:description", content: "Your imported songs, favourites and all Tamil songs." },
     { property: "og:type", content: "website" },
     { name: "twitter:card", content: "summary_large_image" },

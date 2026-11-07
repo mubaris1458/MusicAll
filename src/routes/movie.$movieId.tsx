@@ -10,9 +10,9 @@ export const Route = createFileRoute("/movie/$movieId")({
   head: ({ params }) => {
     const name = params.movieId.split("-").map((w) => w[0]?.toUpperCase() + w.slice(1)).join(" ");
     return { meta: [
-      { title: `${name} — Songs | AmberWave` },
+      { title: `${name} — Songs | Tamil Music` },
       { name: "description", content: `Listen to every song from ${name}.` },
-      { property: "og:title", content: `${name} — Songs | AmberWave` },
+      { property: "og:title", content: `${name} — Songs | Tamil Music` },
       { property: "og:description", content: `Listen to every song from ${name}.` },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

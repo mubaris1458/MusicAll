@@ -11,7 +11,6 @@ import {
 import type { ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-import bg from "../assets/bg.jpg";
 import { LibraryProvider } from "../store/library";
 import { PlayerProvider } from "../store/player";
 import { Sidebar, MobileNav } from "../components/layout/Sidebar";
@@ -81,7 +80,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "AmberWave — Movie music player" },
+      { title: "Tamil Music — Movie music player" },
       { name: "description", content: "Stream movie soundtracks and play your own music in a warm amber glass player." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -92,9 +91,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: appCss,
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
-      { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap" },
     ],
   }),
   shellComponent: RootShell,
@@ -124,10 +120,6 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <LibraryProvider>
         <PlayerProvider>
-          <div className="pointer-events-none fixed inset-0 -z-10 transform-gpu">
-            <img src={bg} alt="" decoding="async" fetchPriority="low" className="h-full w-full object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-b from-ink/30 via-ink/55 to-ink/80" />
-          </div>
           <div className="mx-auto flex max-w-[1600px] gap-4 px-3 pt-4 sm:px-4">
             <Sidebar />
             <div className="min-w-0 flex-1 pb-48 lg:pb-32">

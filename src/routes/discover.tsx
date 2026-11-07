@@ -7,9 +7,9 @@ import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/discover")({
   head: () => ({ meta: [
-    { title: "Discover — AmberWave" },
+    { title: "Discover — Tamil Music" },
     { name: "description", content: "Discover movie soundtracks by composer and year." },
-    { property: "og:title", content: "Discover — AmberWave" },
+    { property: "og:title", content: "Discover — Tamil Music" },
     { property: "og:description", content: "Discover movie soundtracks by composer and year." },
     { property: "og:type", content: "website" },
     { name: "twitter:card", content: "summary_large_image" },

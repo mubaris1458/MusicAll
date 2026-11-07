@@ -11,9 +11,9 @@ import { slug, type Movie } from "@/lib/types";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "AmberWave — Your music, your atmosphere" },
+      { title: "Tamil Music — Your music, your atmosphere" },
       { name: "description", content: "Movie soundtracks, playlists and your own imported music in a warm amber glass player." },
-      { property: "og:title", content: "AmberWave — Your music, your atmosphere" },
+      { property: "og:title", content: "Tamil Music — Your music, your atmosphere" },
       { property: "og:description", content: "Movie soundtracks, playlists and your own imported music." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

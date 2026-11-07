@@ -16,7 +16,7 @@ export function Sidebar() {
     <aside className="glass sticky top-4 hidden h-[calc(100vh-7.5rem)] w-60 shrink-0 flex-col rounded-3xl p-4 lg:flex">
       <Link to="/" className="mb-6 flex items-center gap-2 px-2">
         <span className="grid h-9 w-9 place-items-center rounded-full bg-amber-gradient text-ink shadow-[var(--shadow-glow)]"><Disc3 className="h-5 w-5" /></span>
-        <span className="font-display text-lg font-semibold">Amber<span className="text-amber-gradient">Wave</span></span>
+        <span className="font-display text-lg font-semibold">Tamil <span className="text-amber-gradient">Music</span></span>
       </Link>
       <nav className="flex flex-col gap-1">
         {NAV.map(({ to, label, icon: Icon }) => (

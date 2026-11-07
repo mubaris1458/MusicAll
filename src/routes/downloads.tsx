@@ -6,9 +6,9 @@ import type { Track } from "@/lib/types";
 
 export const Route = createFileRoute("/downloads")({
   head: () => ({ meta: [
-    { title: "Downloads — AmberWave" },
+    { title: "Downloads — Tamil Music" },
     { name: "description", content: "Download songs to your device." },
-    { property: "og:title", content: "Downloads — AmberWave" },
+    { property: "og:title", content: "Downloads — Tamil Music" },
     { property: "og:description", content: "Download songs to your device." },
     { property: "og:type", content: "website" },
     { name: "twitter:card", content: "summary_large_image" },

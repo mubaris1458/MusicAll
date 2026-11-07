@@ -8,9 +8,9 @@ import { Input } from "@/components/ui/input";
 
 export const Route = createFileRoute("/albums")({
   head: () => ({ meta: [
-    { title: "All Movies — AmberWave" },
+    { title: "All Movies — Tamil Music" },
     { name: "description", content: "Every Tamil movie soundtrack in your collection." },
-    { property: "og:title", content: "All Movies — AmberWave" },
+    { property: "og:title", content: "All Movies — Tamil Music" },
     { property: "og:description", content: "Every Tamil movie soundtrack in your collection." },
     { property: "og:type", content: "website" },
     { name: "twitter:card", content: "summary_large_image" },

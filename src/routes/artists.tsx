@@ -7,9 +7,9 @@ import { usePaged } from "@/hooks/use-paged";
 
 export const Route = createFileRoute("/artists")({
   head: () => ({ meta: [
-    { title: "Artists — AmberWave" },
+    { title: "Artists — Tamil Music" },
     { name: "description", content: "Browse singers and composers in your library." },
-    { property: "og:title", content: "Artists — AmberWave" },
+    { property: "og:title", content: "Artists — Tamil Music" },
     { property: "og:description", content: "Browse singers and composers in your library." },
     { property: "og:type", content: "website" },
     { name: "twitter:card", content: "summary_large_image" },

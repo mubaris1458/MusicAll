@@ -5,8 +5,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-display: "Sora", ui-sans-serif, system-ui, sans-serif;
-  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-display: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -40,34 +40,35 @@
 }
 
 :root {
-  --radius: 1.25rem;
-  --background: oklch(0.28 0.04 55);
-  --foreground: oklch(0.97 0.02 80);
-  --card: oklch(0.35 0.05 60 / 0.5);
-  --card-foreground: oklch(0.97 0.02 80);
-  --popover: oklch(0.3 0.04 55 / 0.92);
-  --popover-foreground: oklch(0.97 0.02 80);
-  --primary: oklch(0.8 0.15 70);
-  --primary-foreground: oklch(0.22 0.04 50);
-  --secondary: oklch(1 0 0 / 0.12);
-  --secondary-foreground: oklch(0.97 0.02 80);
-  --muted: oklch(1 0 0 / 0.08);
-  --muted-foreground: oklch(0.88 0.04 75 / 0.75);
-  --accent: oklch(1 0 0 / 0.16);
-  --accent-foreground: oklch(0.98 0.02 80);
+  /* Flat dark theme (Spotify-style): solid colours only, no blur, no photo, no heavy shadows. */
+  --radius: 0.75rem;
+  --background: oklch(0.17 0 0);
+  --foreground: oklch(0.98 0 0);
+  --card: oklch(0.22 0 0);
+  --card-foreground: oklch(0.98 0 0);
+  --popover: oklch(0.24 0 0);
+  --popover-foreground: oklch(0.98 0 0);
+  --primary: oklch(0.76 0.2 150);
+  --primary-foreground: oklch(0.14 0 0);
+  --secondary: oklch(0.27 0 0);
+  --secondary-foreground: oklch(0.98 0 0);
+  --muted: oklch(0.25 0 0);
+  --muted-foreground: oklch(0.72 0 0);
+  --accent: oklch(0.29 0 0);
+  --accent-foreground: oklch(0.98 0 0);
   --destructive: oklch(0.65 0.2 28);
   --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(1 0 0 / 0.18);
-  --input: oklch(1 0 0 / 0.2);
-  --ring: oklch(0.82 0.15 72);
-  --glass: oklch(0.45 0.05 60 / 0.28);
-  --glass-strong: oklch(0.32 0.04 55 / 0.55);
-  --amber: oklch(0.8 0.16 68);
-  --amber-glow: oklch(0.9 0.12 85);
-  --ink: oklch(0.2 0.03 50);
-  --gradient-amber: linear-gradient(135deg, var(--amber-glow), var(--amber) 55%, oklch(0.68 0.17 50));
-  --shadow-glass: 0 20px 50px -20px oklch(0.15 0.05 40 / 0.6), inset 0 1px 0 oklch(1 0 0 / 0.35), inset 0 -1px 0 oklch(1 0 0 / 0.06);
-  --shadow-glow: 0 0 0 1px oklch(0.85 0.14 75 / 0.6), 0 0 30px -4px oklch(0.8 0.16 68 / 0.7);
+  --border: oklch(1 0 0 / 0.1);
+  --input: oklch(0.28 0 0);
+  --ring: oklch(0.76 0.2 150);
+  --glass: oklch(0.22 0 0);
+  --glass-strong: oklch(0.2 0 0);
+  --amber: oklch(0.76 0.2 150);
+  --amber-glow: oklch(0.84 0.2 150);
+  --ink: oklch(0.12 0 0);
+  --gradient-amber: oklch(0.76 0.2 150);
+  --shadow-glass: none;
+  --shadow-glow: 0 0 0 2px oklch(0.76 0.2 150);
 }
 
 @layer base {
@@ -82,31 +83,22 @@
 }
 
 @utility glass {
-  background: linear-gradient(160deg, oklch(1 0 0 / 0.18), oklch(1 0 0 / 0.04) 60%), var(--glass);
-  backdrop-filter: blur(22px) saturate(150%);
-  border: 1px solid oklch(1 0 0 / 0.22);
-  box-shadow: var(--shadow-glass);
+  background: var(--glass);
+  border: 1px solid oklch(1 0 0 / 0.06);
 }
 @utility glass-strong {
-  background: linear-gradient(160deg, oklch(1 0 0 / 0.14), oklch(1 0 0 / 0.02)), var(--glass-strong);
-  backdrop-filter: blur(30px) saturate(160%);
-  border: 1px solid oklch(1 0 0 / 0.2);
-  box-shadow: var(--shadow-glass);
+  background: var(--glass-strong);
+  border: 1px solid oklch(1 0 0 / 0.08);
 }
 @utility bg-amber-gradient { background: var(--gradient-amber); }
-@utility text-amber-gradient {
-  background: var(--gradient-amber);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
+@utility text-amber-gradient { color: var(--amber); }
 @utility glow-active { box-shadow: var(--shadow-glow); }
 @utility lift {
-  transition: transform 0.35s cubic-bezier(.2,.8,.2,1), box-shadow 0.35s, background 0.35s;
-  &:hover { transform: translateY(-4px); box-shadow: var(--shadow-glass), 0 18px 40px -18px oklch(0.8 0.16 68 / 0.6); }
+  transition: background-color 0.15s;
+  &:hover { background: var(--accent); }
 }
-@utility vinyl-spin { animation: spin 14s linear infinite; }
-@utility page-in { animation: pagein 0.45s cubic-bezier(.2,.8,.2,1); }
+@utility vinyl-spin { animation: none; }
+@utility page-in { animation: none; }
 
 @keyframes pagein { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 @keyframes wave { 0%,100% { transform: scaleY(0.3); } 50% { transform: scaleY(1); } }
@@ -122,19 +114,4 @@ input[type="range"].amber-range::-moz-range-thumb { width: 14px; height: 14px; b
   *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
 }
 
-/* Phones / touch screens: no backdrop blur (the biggest cause of scroll lag), flat cheap shadows,
-   no page-load or hover animations, no spinning artwork. Looks the same, just solid instead of frosted. */
-@media (max-width: 768px), (pointer: coarse) {
-  .glass, .glass-strong {
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-    box-shadow: inset 0 1px 0 oklch(1 0 0 / 0.14);
-  }
-  .glass { background: oklch(0.34 0.04 55 / 0.8); }
-  .glass-strong { background: oklch(0.27 0.04 55 / 0.94); }
-  .lift { transition: none; }
-  .lift:hover { transform: none; box-shadow: inset 0 1px 0 oklch(1 0 0 / 0.14); }
-  .page-in { animation: none; }
-  .vinyl-spin { animation: none; }
-}
 .lift { content-visibility: auto; contain-intrinsic-size: auto 180px; }

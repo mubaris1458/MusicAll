@@ -10,9 +10,9 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/search")({
   validateSearch: (s: Record<string, unknown>) => ({ q: typeof s.q === "string" ? s.q : "" }),
   head: () => ({ meta: [
-    { title: "Search — AmberWave" },
+    { title: "Search — Tamil Music" },
     { name: "description", content: "Search songs, artists, movies and playlists." },
-    { property: "og:title", content: "Search — AmberWave" },
+    { property: "og:title", content: "Search — Tamil Music" },
     { property: "og:description", content: "Search songs, artists, movies and playlists." },
     { property: "og:type", content: "website" },
     { name: "twitter:card", content: "summary_large_image" },

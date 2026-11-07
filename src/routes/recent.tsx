@@ -5,9 +5,9 @@ import type { Track } from "@/lib/types";
 
 export const Route = createFileRoute("/recent")({
   head: () => ({ meta: [
-    { title: "Recently Played — AmberWave" },
+    { title: "Recently Played — Tamil Music" },
     { name: "description", content: "Songs you played recently." },
-    { property: "og:title", content: "Recently Played — AmberWave" },
+    { property: "og:title", content: "Recently Played — Tamil Music" },
     { property: "og:description", content: "Songs you played recently." },
     { property: "og:type", content: "website" },
     { name: "twitter:card", content: "summary_large_image" },
