@@ -1,0 +1,4 @@
+- [x] Replace featured-movie playback on Home with instant collection Shuffle.
+- [x] Remove the top Import button and Library section.
+- [x] Verify shuffle playback and navigation.
+- [x] Add the attached Vizhi Veekura as a playable standalone song, not a movie, and verify playback.
