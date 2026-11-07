@@ -124,8 +124,8 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <LibraryProvider>
         <PlayerProvider>
-          <div className="fixed inset-0 -z-10">
-            <img src={bg} alt="" className="h-full w-full object-cover" />
+          <div className="pointer-events-none fixed inset-0 -z-10 transform-gpu">
+            <img src={bg} alt="" decoding="async" fetchPriority="low" className="h-full w-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-b from-ink/30 via-ink/55 to-ink/80" />
           </div>
           <div className="mx-auto flex max-w-[1600px] gap-4 px-3 pt-4 sm:px-4">

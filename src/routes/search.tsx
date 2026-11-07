@@ -4,7 +4,7 @@ import { useDebounced, usePaged } from "@/hooks/use-paged";
 import { useLibrary } from "@/store/library";
 import { TrackList, EmptyState } from "@/components/music/SongCard";
 import { MovieSoundtrackCard, PlaylistCard, ArtistCard, Section, gridCls } from "@/components/music/Cards";
-import type { Track } from "@/lib/types";
+import { groupByArtist } from "@/lib/artists";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/search")({
@@ -33,10 +33,8 @@ function SearchPage() {
   const mv = useMemo(() => s ? movies.filter((m) => has(m.title) || has(m.music) || has(m.hero)) : movies, [s, movies]);
   const mvPage = usePaged(mv.length, 30, s + filter);
   const pls = s ? playlists.filter((p) => has(p.name) || p.trackIds.some((id) => has(getTrack(id)?.title))) : playlists;
-  const artistMap = new Map<string, Track[]>();
-  for (const t of songs) for (const a of t.artist.split(/,\s*/)) if (!s || has(a) || has(t.title) || has(t.movie)) artistMap.set(a, [...(artistMap.get(a) ?? []), t]);
-  const artists = [...artistMap.entries()].filter(([a]) => !s || has(a));
-  const recent = [...songs].sort((a, b) => b.addedAt - a.addedAt).slice(0, 20);
+  const artists = useMemo(() => [...groupByArtist(songs, (a, t) => !s || has(a) || has(t.title) || has(t.movie)).entries()].filter(([a]) => !s || has(a)), [songs, s]);
+  const recent = useMemo(() => [...songs].sort((a, b) => b.addedAt - a.addedAt).slice(0, 20), [songs]);
   const nothing = !songs.length && !mv.length && !pls.length;
 
   return (

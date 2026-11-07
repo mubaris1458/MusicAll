@@ -1,5 +1,6 @@
 import { Heart, ListPlus, MoreHorizontal, Pencil, Play, Trash2, ArrowUp, ArrowDown } from "lucide-react";
-import { useState } from "react";
+import { memo, useState } from "react";
+import { usePaged } from "@/hooks/use-paged";
 import type { Track } from "@/lib/types";
 import { formatTime } from "@/lib/queue";
 import { usePlayer } from "@/store/player";
@@ -19,7 +20,8 @@ interface Props {
 }
 
 /** A song row: artwork, title, artist, movie/album, play, favorite, download and menu. */
-export function SongCard({ track, index, list, onRemove, onMove }: Props) {
+export const SongCard = memo(SongCardImpl);
+function SongCardImpl({ track, index, list, onRemove, onMove }: Props) {
   const { current, playing, playList, addToQueue } = usePlayer();
   const { favorites, toggleFavorite, playlists, addToPlaylist, createPlaylist } = useLibrary();
   const [editing, setEditing] = useState(false);
@@ -83,12 +85,14 @@ export function SongCard({ track, index, list, onRemove, onMove }: Props) {
 }
 
 export function TrackList({ tracks, empty, onRemove, onMove }: { tracks: Track[]; empty?: string; onRemove?: (t: Track) => void; onMove?: (i: number, dir: -1 | 1) => void }) {
+  const { count, sentinel, hasMore } = usePaged(tracks.length, 40, `${tracks.length}:${tracks[0]?.id ?? ""}`);
   if (!tracks.length) return <EmptyState text={empty ?? "No songs here yet."} />;
   return (
     <div className="space-y-1">
-      {tracks.map((t, i) => (
+      {tracks.slice(0, count).map((t, i) => (
         <SongCard key={t.id + i} track={t} index={i} list={tracks} onRemove={onRemove ? () => onRemove(t) : undefined} onMove={onMove ? (d) => onMove(i, d) : undefined} />
       ))}
+      {hasMore && <div ref={sentinel} className="h-10" aria-hidden />}
     </div>
   );
 }

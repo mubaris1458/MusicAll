@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useLibrary } from "@/store/library";
 import { ArtistCard, gridCls } from "@/components/music/Cards";
-import type { Track } from "@/lib/types";
+import { useMemo } from "react";
+import { groupByArtist } from "@/lib/artists";
+import { usePaged } from "@/hooks/use-paged";
 
 export const Route = createFileRoute("/artists")({
   head: () => ({ meta: [
@@ -17,13 +19,13 @@ export const Route = createFileRoute("/artists")({
 
 function Artists() {
   const { tracks } = useLibrary();
-  const map = new Map<string, Track[]>();
-  for (const t of tracks) for (const a of t.artist.split(/,\s*/)) map.set(a, [...(map.get(a) ?? []), t]);
-  const list = [...map.entries()].sort((a, b) => a[0].localeCompare(b[0]));
+  const list = useMemo(() => [...groupByArtist(tracks).entries()].sort((a, b) => a[0].localeCompare(b[0])), [tracks]);
+  const { count, sentinel, hasMore } = usePaged(list.length, 40);
   return (
     <div className="page-in space-y-6">
       <h1 className="text-3xl font-semibold">Artists</h1>
-      <div className={gridCls}>{list.map(([n, ts]) => <ArtistCard key={n} name={n} tracks={ts} />)}</div>
+      <div className={gridCls}>{list.slice(0, count).map(([n, ts]) => <ArtistCard key={n} name={n} tracks={ts} />)}</div>
+      {hasMore && <div ref={sentinel} className="h-10" aria-hidden />}
     </div>
   );
 }

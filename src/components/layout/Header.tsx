@@ -1,6 +1,6 @@
 import { useNavigate, useRouterState, Link } from "@tanstack/react-router";
 import { Search, X, Disc3 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -10,9 +10,18 @@ export function Header() {
   const urlQ = loc.pathname === "/search" ? ((loc.search as { q?: string }).q ?? "") : "";
   const [q, setQ] = useState(urlQ);
   const [focus, setFocus] = useState(false);
-  useEffect(() => setQ(urlQ), [urlQ]);
+  const lastSubmitted = useRef<string | null>(null);
+  // Sync box from URL (back/forward), but ignore the echo of our own navigation so fast typing is never overwritten.
+  useEffect(() => { if (urlQ !== lastSubmitted.current) setQ(urlQ); lastSubmitted.current = null; }, [urlQ]);
 
-  const submit = (v: string) => navigate({ to: "/search", search: { q: v } });
+  const submit = (v: string) => { lastSubmitted.current = v; navigate({ to: "/search", search: { q: v } }); };
+  // Navigate while typing, but only after a short pause (not on every keystroke).
+  useEffect(() => {
+    if (q === urlQ) return;
+    const t = setTimeout(() => submit(q), 350);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [q, urlQ]);
 
   return (
     <header className="sticky top-0 z-30 grid grid-cols-[auto_minmax(0,1fr)] items-center gap-3 py-3 lg:grid-cols-1">
@@ -25,7 +34,7 @@ export function Header() {
         <Search className="h-4 w-4 shrink-0 text-muted-foreground" />
         <input
           value={q}
-          onChange={(e) => { setQ(e.target.value); submit(e.target.value); }}
+          onChange={(e) => setQ(e.target.value)}
           onFocus={() => setFocus(true)}
           onBlur={() => setFocus(false)}
           placeholder="Search songs, artists, movies, playlists…"

@@ -1,10 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useMemo } from "react";
+import { groupByArtist } from "@/lib/artists";
 import { Shuffle } from "lucide-react";
 import { useLibrary } from "@/store/library";
 import { usePlayer } from "@/store/player";
 import { MovieSoundtrackCard, PlaylistCard, ArtistCard, Section, gridCls } from "@/components/music/Cards";
 import { Button } from "@/components/ui/button";
-import { slug, type Movie, type Track } from "@/lib/types";
+import { slug, type Movie } from "@/lib/types";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -24,17 +26,19 @@ function Home() {
   const { movies, playlists, recent, getTrack, tracks } = useLibrary();
   const { playList } = usePlayer();
 
-  const recentMovies: Movie[] = [];
-  for (const id of recent) {
-    const t = getTrack(id); if (!t) continue;
-    const m = movies.find((mm) => mm.id === slug(t.movie || t.album || "Imported"));
-    if (m && !recentMovies.includes(m)) recentMovies.push(m);
-  }
-  const popular = [...movies].sort((a, b) => b.tracks.length - a.tracks.length);
-  const newReleases = [...movies].sort((a, b) => (b.year ?? 0) - (a.year ?? 0) || b.tracks[0].addedAt - a.tracks[0].addedAt);
-  const artists = new Map<string, Track[]>();
-  for (const t of tracks) for (const a of t.artist.split(/,\s*/)) artists.set(a, [...(artists.get(a) ?? []), t]);
-  const topArtists = [...artists.entries()].sort((a, b) => b[1].length - a[1].length).slice(0, 5);
+  const recentMovies = useMemo(() => {
+    const byId = new Map(movies.map((m) => [m.id, m]));
+    const out: Movie[] = [];
+    for (const id of recent) {
+      const t = getTrack(id); if (!t) continue;
+      const m = byId.get(slug(t.movie || t.album || "Imported"));
+      if (m && !out.includes(m)) out.push(m);
+    }
+    return out;
+  }, [recent, movies, getTrack]);
+  const popular = useMemo(() => [...movies].sort((a, b) => b.tracks.length - a.tracks.length).slice(0, 5), [movies]);
+  const newReleases = useMemo(() => [...movies].sort((a, b) => (b.year ?? 0) - (a.year ?? 0) || b.tracks[0].addedAt - a.tracks[0].addedAt).slice(0, 5), [movies]);
+  const topArtists = useMemo(() => [...groupByArtist(tracks).entries()].sort((a, b) => b[1].length - a[1].length).slice(0, 5), [tracks]);
 
   return (
     <div className="page-in space-y-10">

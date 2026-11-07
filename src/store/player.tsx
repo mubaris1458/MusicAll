@@ -1,5 +1,5 @@
 import type React from "react";
-import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { toast } from "sonner";
 import type { Track } from "@/lib/types";
 import { buildOrder, continuation, nextPos, prevPos, type RepeatMode } from "@/lib/queue";
@@ -179,14 +179,6 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     if (a.paused) a.play().catch(() => {}); else a.pause();
   }, [current]);
 
-  const toggleShuffle = () => {
-    const sh = !shuffle; setShuffle(sh);
-    if (pos < 0) return;
-    const cur = order[pos];
-    const o = buildOrder(queue.length, cur, sh);
-    setOrder(o); setPos(o.indexOf(cur));
-  };
-
   // Keyboard shortcuts
   useEffect(() => {
     const h = (e: KeyboardEvent) => {
@@ -201,13 +193,20 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     return () => window.removeEventListener("keydown", h);
   }, [toggle, next, prev]);
 
-  const value: PlayerCtx = {
+  // Memoized: playback time ticks ~4x/sec and must NOT re-render every song row / card.
+  const value = useMemo<PlayerCtx>(() => ({
     queue, order, pos, current, playing, loading, duration, volume, muted, shuffle, repeat,
     playList, toggle, next, prev,
     seek: (t) => { if (audioRef.current) { audioRef.current.currentTime = t; setTime(t); } },
     setVolume: (v) => { setVol(v); if (v > 0) setMuted(false); },
     toggleMute: () => setMuted((m) => !m),
-    toggleShuffle,
+    toggleShuffle: () => {
+      const sh = !shuffle; setShuffle(sh);
+      if (pos < 0) return;
+      const cur = order[pos];
+      const o = buildOrder(queue.length, cur, sh);
+      setOrder(o); setPos(o.indexOf(cur));
+    },
     cycleRepeat: () => setRepeat((r) => (r === "off" ? "all" : r === "all" ? "one" : "off")),
     jumpTo: goTo,
     addToQueue: (t) => {
@@ -221,7 +220,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       const cur = queue[order[pos]];
       setQueue([cur]); setOrder([0]); setPos(0);
     },
-  };
+  }), [queue, order, pos, current, playing, loading, duration, volume, muted, shuffle, repeat, playList, toggle, next, prev, goTo]);
   return <Ctx.Provider value={value}><TimeCtx.Provider value={time}>{children}</TimeCtx.Provider></Ctx.Provider>;
 }
 

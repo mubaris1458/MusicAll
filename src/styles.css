@@ -122,11 +122,19 @@ input[type="range"].amber-range::-moz-range-thumb { width: 14px; height: 14px; b
   *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
 }
 
-/* Low-end phones: same look, cheaper rendering. Smaller blur radius, no hover lift on touch,
-   and off-screen cards skip layout/paint until scrolled near. */
+/* Phones / touch screens: no backdrop blur (the biggest cause of scroll lag), flat cheap shadows,
+   no page-load or hover animations, no spinning artwork. Looks the same, just solid instead of frosted. */
 @media (max-width: 768px), (pointer: coarse) {
-  .glass { backdrop-filter: blur(12px) saturate(140%); -webkit-backdrop-filter: blur(12px) saturate(140%); }
-  .glass-strong { backdrop-filter: blur(16px) saturate(150%); -webkit-backdrop-filter: blur(16px) saturate(150%); }
-  .lift:hover { transform: none; }
+  .glass, .glass-strong {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow: inset 0 1px 0 oklch(1 0 0 / 0.14);
+  }
+  .glass { background: oklch(0.34 0.04 55 / 0.8); }
+  .glass-strong { background: oklch(0.27 0.04 55 / 0.94); }
+  .lift { transition: none; }
+  .lift:hover { transform: none; box-shadow: inset 0 1px 0 oklch(1 0 0 / 0.14); }
+  .page-in { animation: none; }
+  .vinyl-spin { animation: none; }
 }
 .lift { content-visibility: auto; contain-intrinsic-size: auto 180px; }
